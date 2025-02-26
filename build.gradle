@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.2'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
 }
 
 group = 'io.felipe.bookingdemo'
@@ -19,12 +20,37 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.apache.commons:commons-lang3:3.14.0'  // ✅ Latest stable version
+
+	// ✅ JUnit 5 dependencies (Cleaned)
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'  // Includes JUnit 5
+	testImplementation 'org.junit.jupiter:junit-jupiter'  // ✅ Includes API & Engine
+	testImplementation 'org.mockito:mockito-core:5.8.0'
+	testImplementation 'org.assertj:assertj-core:3.25.3'
+
+}
+
+
+// 🏃 ✅ Configure JUnit 5 + Test Filtering by Tag
+test {
+//	useJUnitPlatform()
+	useJUnitPlatform()
+	// ⚡ Run tests in parallel
+	maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+}
+
+// 📊 ✅ JaCoCo Test Coverage
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+		html.required = true
+	}
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+	finalizedBy jacocoTestReport // ✅ Generate coverage report after tests
 }

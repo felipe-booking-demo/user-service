@@ -1,18 +1,13 @@
-package io.felipe.bookingdemo.user_service.entity;
+package io.felipe.bookingdemo.user_service.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.Objects;
 
-@Document(collection = "users")
-public class User {
-
-    @Id
+public class UserDTO {
     private String id;
     @NotBlank(message = "Field required")
     private String email;
@@ -23,12 +18,11 @@ public class User {
     @NotBlank(message = "Field required")
     private String password;
     private String role;
-    @NotBlank(message = "Field required")
-    private Date birthDate;
-    private Instant createdAt;
-    private Instant updatedAt;
+    private LocalDate birthDate;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
 
-    public User() {}
+    public UserDTO() {}
 
     public String getId() {
         return id;
@@ -78,56 +72,55 @@ public class User {
         this.role = role;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (!(o instanceof User user)) return false;
-
-        return new EqualsBuilder().append(id, user.id).append(email, user.email).append(name, user.name).append(username, user.username).append(password, user.password).append(role, user.role).append(birthDate, user.birthDate).append(createdAt, user.createdAt).append(updatedAt, user.updatedAt).isEquals();
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(id).append(email).append(name).append(username).append(password).append(role).append(birthDate).append(createdAt).append(updatedAt).toHashCode();
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserDTO{" +
                 "id='" + id + '\'' +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
-                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", birthDate=" + birthDate +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof UserDTO userDTO)) return false;
+
+        return new EqualsBuilder().append(id, userDTO.id).append(email, userDTO.email).append(name, userDTO.name).append(username, userDTO.username).append(password, userDTO.password).append(role, userDTO.role).append(birthDate, userDTO.birthDate).append(createdAt, userDTO.createdAt).append(updatedAt, userDTO.updatedAt).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, name, username, password, role, birthDate, createdAt, updatedAt);
     }
 }
