@@ -34,23 +34,16 @@ dependencies {
 }
 
 
-// 🏃 ✅ Configure JUnit 5 + Test Filtering by Tag
 test {
-//	useJUnitPlatform()
 	useJUnitPlatform()
-	// ⚡ Run tests in parallel
-	maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
 }
 
-// 📊 ✅ JaCoCo Test Coverage
+// ✅ Configure JaCoCo to include both test & integrationTest
 jacocoTestReport {
-	dependsOn test
+	dependsOn test  // ✅ Ensure both test tasks complete first
+
 	reports {
 		xml.required = true
-		html.required = true
+		html.required = true  // ✅ Viewable at `build/reports/jacoco/test/html/index.html`
 	}
-}
-
-tasks.named('test') {
-	finalizedBy jacocoTestReport // ✅ Generate coverage report after tests
 }

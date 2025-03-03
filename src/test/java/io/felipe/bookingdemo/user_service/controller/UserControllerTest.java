@@ -25,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(UserController.class)
 @Import(SecurityConfigTest.class)
 public class UserControllerTest {
+
     @MockitoBean
     private UserService userService;
 

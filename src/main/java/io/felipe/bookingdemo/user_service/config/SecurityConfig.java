@@ -17,6 +17,8 @@ public class SecurityConfig  {
     }
 
     // TODO: This method is disabling security in all requests, needs to be removed in next iteration - Felipe, 2025-02-24
+    // I've created an application in Auth0 - documentation for the application here:
+    //  https://www.notion.so/Authentication-Auth0-1ab7c6f54aa180e68925db11b2e82750?pvs=4
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
