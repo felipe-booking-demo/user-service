@@ -25,6 +25,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.apache.commons:commons-lang3:3.14.0'  // ✅ Latest stable version
 
+	// retry
+	implementation 'org.springframework.retry:spring-retry:2.0.4' // ✅ Spring Retry 2.x
+
+	// JWT Validation
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	// ✅ JUnit 5 dependencies (Cleaned)
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'  // Includes JUnit 5
 	testImplementation 'org.junit.jupiter:junit-jupiter'  // ✅ Includes API & Engine
@@ -34,23 +41,16 @@ dependencies {
 }
 
 
-// 🏃 ✅ Configure JUnit 5 + Test Filtering by Tag
 test {
-//	useJUnitPlatform()
 	useJUnitPlatform()
-	// ⚡ Run tests in parallel
-	maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
 }
 
-// 📊 ✅ JaCoCo Test Coverage
+// ✅ Configure JaCoCo to include both test & integrationTest
 jacocoTestReport {
-	dependsOn test
+	dependsOn test  // ✅ Ensure both test tasks complete first
+
 	reports {
 		xml.required = true
-		html.required = true
+		html.required = true  // ✅ Viewable at `build/reports/jacoco/test/html/index.html`
 	}
-}
-
-tasks.named('test') {
-	finalizedBy jacocoTestReport // ✅ Generate coverage report after tests
 }

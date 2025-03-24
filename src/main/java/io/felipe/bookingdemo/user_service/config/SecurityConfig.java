@@ -17,15 +17,20 @@ public class SecurityConfig  {
     }
 
     // TODO: This method is disabling security in all requests, needs to be removed in next iteration - Felipe, 2025-02-24
+    // I've created an application in Auth0 - documentation for the application here:
+    //  https://www.notion.so/Authentication-Auth0-1ab7c6f54aa180e68925db11b2e82750?pvs=4
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAuthEntryPoint customAuthEntryPoint) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable)  // ✅ New recommended syntax
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/api/login").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(Customizer.withDefaults())
+                        .authenticationEntryPoint(customAuthEntryPoint)
+                )
                 .build();
     }
 }
